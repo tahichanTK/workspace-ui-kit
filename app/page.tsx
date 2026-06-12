@@ -1,47 +1,35 @@
 import { NewbizWorkspace } from "@/components/workspace/NewbizWorkspace";
-import themesData from "@/data/themes.json";
-import kpiMapData from "@/data/kpi-map.json";
-import weeklySummaryData from "@/data/weekly-summary.json";
-import aiSuggestionsData from "@/data/ai-suggestions.json";
 import workspaceData from "@/data/workspace.json";
-import {
-  themesSchema,
-  kpiMapSchema,
-  weeklySummariesSchema,
-  aiSuggestionsSchema,
-} from "@/lib/newbiz-schema";
 import { workspaceSchema } from "@/lib/schema";
+import {
+  getThemes,
+  getKpiMap,
+  getWeeklySummaries,
+  getAiSuggestions,
+} from "@/lib/db-queries";
 
-export default function Page() {
-  const themesResult = themesSchema.safeParse(themesData);
-  const kpiMapResult = kpiMapSchema.safeParse(kpiMapData);
-  const summariesResult = weeklySummariesSchema.safeParse(weeklySummaryData);
-  const suggestionsResult = aiSuggestionsSchema.safeParse(aiSuggestionsData);
+export default async function Page() {
+  const [themes, kpiMap, weeklySummaries, aiSuggestions] = await Promise.all([
+    getThemes(),
+    getKpiMap(),
+    getWeeklySummaries(),
+    getAiSuggestions(),
+  ]);
+
   const wsResult = workspaceSchema.safeParse(workspaceData);
-
-  const errors = [
-    !themesResult.success &&
-      `themes.json: ${themesResult.error.issues[0]?.message}`,
-    !kpiMapResult.success &&
-      `kpi-map.json: ${kpiMapResult.error.issues[0]?.message}`,
-    !summariesResult.success &&
-      `weekly-summary.json: ${summariesResult.error.issues[0]?.message}`,
-    !suggestionsResult.success &&
-      `ai-suggestions.json: ${suggestionsResult.error.issues[0]?.message}`,
-    !wsResult.success && `workspace.json: ${wsResult.error.issues[0]?.message}`,
-  ].filter(Boolean);
-
-  if (errors.length > 0) {
-    throw new Error(`データの形式が正しくありません:\n${errors.join("\n")}`);
+  if (!wsResult.success) {
+    throw new Error(
+      `workspace.json の形式が正しくありません: ${wsResult.error.issues[0]?.message}`
+    );
   }
 
   return (
     <NewbizWorkspace
-      themes={themesResult.data!}
-      kpiMap={kpiMapResult.data!}
-      weeklySummaries={summariesResult.data!}
-      aiSuggestions={suggestionsResult.data!}
-      workspace={wsResult.data!}
+      themes={themes}
+      kpiMap={kpiMap}
+      weeklySummaries={weeklySummaries}
+      aiSuggestions={aiSuggestions}
+      workspace={wsResult.data}
     />
   );
 }
