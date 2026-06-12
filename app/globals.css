@@ -218,4 +218,20 @@
   html {
     @apply font-sans;
   }
+
+  /* 新規事業ダッシュボード カテゴリ色変数（bg用薄色 / accent用濃色の2トークン構成） */
+  :root {
+    --color-category-marketing-bg: #eff6ff;
+    --color-category-marketing-accent: #1d4ed8;
+    --color-category-making-bg: #f0fdf4;
+    --color-category-making-accent: #15803d;
+    --color-category-production-bg: #fefce8;
+    --color-category-production-accent: #a16207;
+    --color-category-advantage-bg: #fdf4ff;
+    --color-category-advantage-accent: #7e22ce;
+    --color-category-service-design-bg: #fff7ed;
+    --color-category-service-design-accent: #c2410c;
+    --color-category-delivery-bg: #f0f9ff;
+    --color-category-delivery-accent: #0369a1;
+  }
 }

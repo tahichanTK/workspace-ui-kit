@@ -1,0 +1,23 @@
+[
+  {
+    "id": "theme-a",
+    "name": "テーマA — 機能性食品",
+    "type": "product",
+    "status": "on-track",
+    "currentPhase": "validation"
+  },
+  {
+    "id": "theme-b",
+    "name": "テーマB — 飲食店向け食材DX",
+    "type": "service",
+    "status": "at-risk",
+    "currentPhase": "mvp"
+  },
+  {
+    "id": "theme-c",
+    "name": "テーマC — フードロス削減",
+    "type": "service",
+    "status": "critical",
+    "currentPhase": "validation"
+  }
+]

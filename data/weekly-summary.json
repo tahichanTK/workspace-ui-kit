@@ -1,0 +1,80 @@
+[
+  {
+    "themeId": "theme-a",
+    "weekLabel": "2026年6月 第1週",
+    "items": [
+      {
+        "text": "食品メーカー3社へのヒアリングを実施。うち2社で「食物アレルギー対応」への強いニーズを確認",
+        "phases": ["validation"],
+        "categories": ["marketing"],
+        "kpis": ["顧客ヒアリング数", "課題明確化率"]
+      },
+      {
+        "text": "素材メーカーと原材料の初期サンプル受領。社内試食で味の改善余地を確認",
+        "phases": ["validation"],
+        "categories": ["making"],
+        "kpis": ["プロトタイプ完成度", "素材確定数"]
+      },
+      {
+        "text": "来週のヒアリング候補として健康食品専門店バイヤー2名のアポを獲得",
+        "phases": ["validation"],
+        "categories": ["marketing"],
+        "kpis": ["顧客ヒアリング数"]
+      }
+    ]
+  },
+  {
+    "themeId": "theme-b",
+    "weekLabel": "2026年6月 第1週",
+    "items": [
+      {
+        "text": "試験導入3店舗のうち2店舗でログイン率が低下。操作フローの複雑さが原因と特定",
+        "phases": ["mvp"],
+        "categories": ["marketing", "service_design"],
+        "kpis": ["週次アクティブ率", "発注完了率"]
+      },
+      {
+        "text": "配送パートナーとのSLAミスマッチが判明。遅延の原因が物流側の問題であることを確認",
+        "phases": ["mvp"],
+        "categories": ["delivery"],
+        "kpis": ["配送遅延率"]
+      },
+      {
+        "text": "新規飲食店の獲得に向けて営業資料を改定。食材コスト削減の実績データを追加",
+        "phases": ["mvp"],
+        "categories": ["marketing"],
+        "kpis": ["利用飲食店数"]
+      },
+      {
+        "text": "来週、UI改善版のA/Bテストを開始予定。操作ステップを5→3に短縮する変更",
+        "phases": ["mvp"],
+        "categories": ["service_design"],
+        "kpis": ["発注完了率", "週次アクティブ率"]
+      }
+    ]
+  },
+  {
+    "themeId": "theme-c",
+    "weekLabel": "2026年6月 第1週",
+    "items": [
+      {
+        "text": "食品卸5社にインタビューを申し込んだが、1社のみ承諾。商材の説明不足が障壁に",
+        "phases": ["validation"],
+        "categories": ["marketing"],
+        "kpis": ["仮説インタビュー数"]
+      },
+      {
+        "text": "紙芝居プロトタイプでユーザーテストを実施（n=3）。フードロス発生の「見える化」機能への関心が低かった",
+        "phases": ["validation"],
+        "categories": ["service_design"],
+        "kpis": ["UXプロトタイプ版数", "NPS（仮説反応）"]
+      },
+      {
+        "text": "仮説の見直しが必要と判断。来週はピボット候補2案を整理してメンターに相談予定",
+        "phases": ["validation"],
+        "categories": ["marketing", "service_design"],
+        "kpis": ["仮説インタビュー数", "NPS（仮説反応）"]
+      }
+    ]
+  }
+]

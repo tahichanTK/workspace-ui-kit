@@ -1,35 +1,47 @@
-import { Workspace } from "@/components/workspace/Workspace";
-import positionsData from "@/data/positions.json";
-import candidatesData from "@/data/candidates.json";
+import { NewbizWorkspace } from "@/components/workspace/NewbizWorkspace";
+import themesData from "@/data/themes.json";
+import kpiMapData from "@/data/kpi-map.json";
+import weeklySummaryData from "@/data/weekly-summary.json";
+import aiSuggestionsData from "@/data/ai-suggestions.json";
 import workspaceData from "@/data/workspace.json";
 import {
-  departmentsSchema,
-  candidatesSchema,
-  workspaceSchema,
-} from "@/lib/schema";
+  themesSchema,
+  kpiMapSchema,
+  weeklySummariesSchema,
+  aiSuggestionsSchema,
+} from "@/lib/newbiz-schema";
+import { workspaceSchema } from "@/lib/schema";
 
 export default function Page() {
-  const deptResult = departmentsSchema.safeParse(positionsData);
-  const candResult = candidatesSchema.safeParse(candidatesData);
+  const themesResult = themesSchema.safeParse(themesData);
+  const kpiMapResult = kpiMapSchema.safeParse(kpiMapData);
+  const summariesResult = weeklySummariesSchema.safeParse(weeklySummaryData);
+  const suggestionsResult = aiSuggestionsSchema.safeParse(aiSuggestionsData);
   const wsResult = workspaceSchema.safeParse(workspaceData);
 
-  if (!deptResult.success || !candResult.success || !wsResult.success) {
-    const errors = [
-      !deptResult.success &&
-        `positions.json: ${deptResult.error.issues[0]?.message}`,
-      !candResult.success &&
-        `candidates.json: ${candResult.error.issues[0]?.message}`,
-      !wsResult.success &&
-        `workspace.json: ${wsResult.error.issues[0]?.message}`,
-    ].filter(Boolean);
+  const errors = [
+    !themesResult.success &&
+      `themes.json: ${themesResult.error.issues[0]?.message}`,
+    !kpiMapResult.success &&
+      `kpi-map.json: ${kpiMapResult.error.issues[0]?.message}`,
+    !summariesResult.success &&
+      `weekly-summary.json: ${summariesResult.error.issues[0]?.message}`,
+    !suggestionsResult.success &&
+      `ai-suggestions.json: ${suggestionsResult.error.issues[0]?.message}`,
+    !wsResult.success && `workspace.json: ${wsResult.error.issues[0]?.message}`,
+  ].filter(Boolean);
+
+  if (errors.length > 0) {
     throw new Error(`データの形式が正しくありません:\n${errors.join("\n")}`);
   }
 
   return (
-    <Workspace
-      initialDepartments={deptResult.data}
-      initialCandidates={candResult.data}
-      workspace={wsResult.data}
+    <NewbizWorkspace
+      themes={themesResult.data!}
+      kpiMap={kpiMapResult.data!}
+      weeklySummaries={summariesResult.data!}
+      aiSuggestions={suggestionsResult.data!}
+      workspace={wsResult.data!}
     />
   );
 }

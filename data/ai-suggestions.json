@@ -1,0 +1,83 @@
+[
+  {
+    "themeId": "theme-a",
+    "updatedAt": "2026-06-01",
+    "suggestions": [
+      {
+        "priority": 1,
+        "priorityLabel": "高",
+        "opportunity": "ヒアリング対象を食品バイヤーに絞ることで、検証速度と質を両立できる",
+        "action": "今週中に健康食品専門店バイヤー3名のアポを確定し、ヒアリングシートを事前送付する",
+        "categories": ["marketing"]
+      },
+      {
+        "priority": 2,
+        "priorityLabel": "中",
+        "opportunity": "アレルギー対応ニーズを起点に、課題明確化率を80%に引き上げられる可能性がある",
+        "action": "ヒアリングシートに「現在の代替手段と不満点」の設問を追加し、定量データを収集する",
+        "categories": ["marketing"]
+      },
+      {
+        "priority": 3,
+        "priorityLabel": "低",
+        "opportunity": "プロトタイプ改善を素材確定と並行して進めることで、次フェーズへの移行を早められる",
+        "action": "素材候補5種を月末までに決定し、プロトタイプ完成度100%のマイルストーンを設定する",
+        "categories": ["making"]
+      }
+    ]
+  },
+  {
+    "themeId": "theme-b",
+    "updatedAt": "2026-06-01",
+    "suggestions": [
+      {
+        "priority": 1,
+        "priorityLabel": "高",
+        "opportunity": "操作フローを簡略化することで、週次アクティブ率の回復が最短で見込める",
+        "action": "A/Bテストを今週中に開始し、2週間以内に改善効果を測定してピボット判断を行う",
+        "categories": ["service_design"]
+      },
+      {
+        "priority": 2,
+        "priorityLabel": "中",
+        "opportunity": "配送パートナーとのSLA再交渉で、遅延率を目標値5%に近づけられる",
+        "action": "今週中に配送パートナーと緊急ミーティングを設定し、改善期限と指標を合意する",
+        "categories": ["delivery"]
+      },
+      {
+        "priority": 3,
+        "priorityLabel": "低",
+        "opportunity": "食材コスト削減の実績データを活用した新規獲得活動で、導入店舗数の積み上げが加速する",
+        "action": "来週から新規飲食店3社への営業活動を開始し、月内に1店舗の追加導入を目指す",
+        "categories": ["marketing"]
+      }
+    ]
+  },
+  {
+    "themeId": "theme-c",
+    "updatedAt": "2026-06-01",
+    "suggestions": [
+      {
+        "priority": 1,
+        "priorityLabel": "高",
+        "opportunity": "ピボットによって、より刺さる課題軸を早期に特定できる可能性がある",
+        "action": "来週のメンター相談前に、ピボット候補2案をリーンキャンバスで整理し仮説の優先順位を確定する",
+        "categories": ["marketing", "service_design"]
+      },
+      {
+        "priority": 2,
+        "priorityLabel": "中",
+        "opportunity": "インタビュー申込の説明資料を改善することで、承諾率を高められる",
+        "action": "食品卸向けの課題共感ストーリーを1ページにまとめ、今週中に5社へ再送付する",
+        "categories": ["marketing"]
+      },
+      {
+        "priority": 3,
+        "priorityLabel": "低",
+        "opportunity": "ユーザーテストの対象を広げることで、仮説に対する多様な反応を収集できる",
+        "action": "飲食店オーナーコミュニティへのアクセス方法を調査し、来週中にルートを確保する",
+        "categories": ["service_design"]
+      }
+    ]
+  }
+]
