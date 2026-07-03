@@ -8,8 +8,6 @@ import path from "node:path";
 const projectRoot = path.resolve(__dirname);
 
 const nextConfig: NextConfig = {
-  output: "export",
-  images: { unoptimized: true },
   turbopack: {
     root: projectRoot,
   },
