@@ -5,15 +5,13 @@ import {
   getThemes,
   getKpiMap,
   getWeeklySummaries,
-  getAiSuggestions,
 } from "@/lib/db-queries";
 
 export default async function Page() {
-  const [themes, kpiMap, weeklySummaries, aiSuggestions] = await Promise.all([
+  const [themes, kpiMap, weeklySummaries] = await Promise.all([
     getThemes(),
     getKpiMap(),
     getWeeklySummaries(),
-    getAiSuggestions(),
   ]);
 
   const wsResult = workspaceSchema.safeParse(workspaceData);
@@ -28,7 +26,6 @@ export default async function Page() {
       themes={themes}
       kpiMap={kpiMap}
       weeklySummaries={weeklySummaries}
-      aiSuggestions={aiSuggestions}
       workspace={wsResult.data}
     />
   );

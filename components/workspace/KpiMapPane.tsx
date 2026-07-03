@@ -90,7 +90,6 @@ function KpiCard({
   unit,
   rag,
   expanded,
-  isHighlighted,
 }: {
   name: string;
   value: number;
@@ -98,7 +97,6 @@ function KpiCard({
   unit: string;
   rag: Rag;
   expanded: boolean;
-  isHighlighted: boolean;
 }) {
   const ragDisplay = ragToDisplay(rag);
   const pct = Math.min(100, target > 0 ? (value / target) * 100 : 0);
@@ -113,12 +111,9 @@ function KpiCard({
     <div
       className={[
         "rounded-md border transition-all",
-        isHighlighted
-          ? "border-amber-400 bg-amber-50 shadow-md ring-2 ring-amber-300"
-          : expanded
-            ? "border-border bg-background px-3 py-2.5 shadow-sm"
-            : "border-border bg-muted/30",
-        isHighlighted || expanded ? "px-3 py-2.5" : "px-2 py-1.5",
+        expanded
+          ? "border-border bg-background px-3 py-2.5 shadow-sm"
+          : "border-border bg-muted/30 px-2 py-1.5",
       ].join(" ")}
     >
       {/* KPI 名 */}
@@ -172,21 +167,18 @@ type KpiMapPaneProps = {
   themes: Theme[];
   kpiMap: KpiMapEntry[];
   selectedThemeId: string;
-  highlightedKpis?: string[];
-  onCategoryHighlight?: (cats: string[]) => void;
-  onCategoryReset?: () => void;
+  selectedCategory?: string | null;
+  onCategorySelect?: (cat: string) => void;
 };
 
 export function KpiMapPane({
   themes,
   kpiMap,
   selectedThemeId,
-  highlightedKpis = [],
-  onCategoryHighlight,
-  onCategoryReset,
+  selectedCategory = null,
+  onCategorySelect,
 }: KpiMapPaneProps) {
   const [hoveredRow, setHoveredRow] = useState<string | null>(null);
-  const [hoveredCol, setHoveredCol] = useState<string | null>(null);
   const [futureExpanded, setFutureExpanded] = useState(false);
 
   const toggleFuture = useCallback(() => setFutureExpanded((v) => !v), []);
@@ -244,15 +236,18 @@ export function KpiMapPane({
                 フェーズ
               </th>
               {categories.map((cat) => {
+                const isSelected = selectedCategory === cat;
                 return (
                 <th
                   key={cat}
-                  onMouseEnter={() => { setHoveredCol(cat); onCategoryHighlight?.([cat]); }}
-                  onMouseLeave={() => { setHoveredCol(null); onCategoryReset?.(); }}
+                  onClick={() => onCategorySelect?.(cat)}
                   className={[
-                    "sticky top-0 z-10 min-w-[180px] border-b border-r border-border px-3 py-2 text-left text-xs font-semibold transition-colors",
-                    hoveredCol === cat ? "bg-slate-100" : "bg-muted/40",
+                    "sticky top-0 z-10 min-w-[180px] cursor-pointer border-b border-r border-border px-3 py-2 text-left text-xs font-semibold transition-colors select-none",
+                    isSelected
+                      ? "bg-blue-100 text-blue-800"
+                      : "bg-muted/40 hover:bg-slate-100",
                   ].join(" ")}
+                  title={isSelected ? "クリックで解除" : "クリックでフィルタ"}
                 >
                   <span className="flex items-center gap-1.5">
                     <span
@@ -262,6 +257,11 @@ export function KpiMapPane({
                       }}
                     />
                     {CATEGORY_LABELS[cat]}
+                    {isSelected && (
+                      <span className="ml-auto rounded-full bg-blue-600 px-1.5 py-0.5 text-xs text-white">
+                        絞込中
+                      </span>
+                    )}
                   </span>
                 </th>
                 );
@@ -324,23 +324,27 @@ export function KpiMapPane({
                     const isValid = (validCats as string[]).includes(cat);
                     const entry = kpiForCell.get(`${phase}:${cat}`);
                     const isRowHovered = hoveredRow === phase;
-                    const isColHovered = hoveredCol === cat;
+                    const isCatSelected = selectedCategory === cat;
 
                     return (
                       <td
                         key={cat}
-                        onMouseEnter={() => { setHoveredCol(cat); onCategoryHighlight?.([cat]); }}
-                        onMouseLeave={() => { setHoveredCol(null); onCategoryReset?.(); }}
+                        onClick={() => isValid ? onCategorySelect?.(cat) : undefined}
                         className={[
                           "border-b border-r border-border align-top transition-colors",
                           isCurrentPhase ? "px-3 py-4" : "px-3 py-2",
-                          isCurrentPhase && isValid
-                            ? "border-l-2 border-l-blue-600 bg-blue-50"
-                            : (isRowHovered || isColHovered) && isValid
-                              ? "bg-slate-50"
-                              : !isValid
-                                ? "bg-muted/10"
-                                : "",
+                          isValid ? "cursor-pointer" : "",
+                          isCurrentPhase && isValid && isCatSelected
+                            ? "border-l-2 border-l-blue-600 bg-blue-100"
+                            : isCurrentPhase && isValid
+                              ? "border-l-2 border-l-blue-600 bg-blue-50"
+                              : isCatSelected && isValid
+                                ? "bg-blue-50"
+                                : isRowHovered && isValid
+                                  ? "bg-slate-50"
+                                  : !isValid
+                                    ? "bg-muted/10"
+                                    : "",
                         ].join(" ")}
                       >
                               {!isValid ? (
@@ -366,7 +370,6 @@ export function KpiMapPane({
                                 unit={kpi.unit}
                                 rag={kpi.rag}
                                 expanded={isCurrentPhase}
-                                isHighlighted={highlightedKpis.includes(kpi.name)}
                               />
                             ))}
                                 </div>

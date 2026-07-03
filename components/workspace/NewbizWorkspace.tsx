@@ -5,7 +5,6 @@ import type {
   Theme,
   KpiMapEntry,
   WeeklySummary,
-  AiSuggestionsEntry,
 } from "@/lib/newbiz-schema";
 import { ThemePane } from "@/components/workspace/ThemePane";
 import { KpiMapPane } from "@/components/workspace/KpiMapPane";
@@ -16,7 +15,6 @@ type NewbizWorkspaceProps = {
   themes: Theme[];
   kpiMap: KpiMapEntry[];
   weeklySummaries: WeeklySummary[];
-  aiSuggestions: AiSuggestionsEntry[];
   workspace: { name: string; icon: string };
 };
 
@@ -24,27 +22,16 @@ export function NewbizWorkspace({
   themes,
   kpiMap,
   weeklySummaries,
-  aiSuggestions,
   workspace,
 }: NewbizWorkspaceProps) {
   const [selectedThemeId, setSelectedThemeId] = useState(themes[0]?.id ?? "");
-  // P2列ホバー or P4カードホバー → P3/P4カードに amber 反応
-  const [highlightedCategories, setHighlightedCategories] = useState<string[]>([]);
-  // P3カードホバー → P2の特定KPIカードにリング反応
-  const [highlightedKpis, setHighlightedKpis] = useState<string[]>([]);
+  // P2列クリック → P3/P4をそのカテゴリでフィルタ（null = 全表示）
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const handleCategoryHighlight = (cats: string[]) => {
-    setHighlightedCategories(cats);
-    setHighlightedKpis([]);
+  const handleCategorySelect = (cat: string) => {
+    setSelectedCategory((prev) => (prev === cat ? null : cat));
   };
-  const handleKpiHighlight = (kpis: string[]) => {
-    setHighlightedKpis(kpis);
-    setHighlightedCategories([]);
-  };
-  const handleReset = () => {
-    setHighlightedCategories([]);
-    setHighlightedKpis([]);
-  };
+  const handleCategoryReset = () => setSelectedCategory(null);
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background text-foreground">
@@ -81,9 +68,8 @@ export function NewbizWorkspace({
             themes={themes}
             kpiMap={kpiMap}
             selectedThemeId={selectedThemeId}
-            highlightedKpis={highlightedKpis}
-            onCategoryHighlight={handleCategoryHighlight}
-            onCategoryReset={handleReset}
+            selectedCategory={selectedCategory}
+            onCategorySelect={handleCategorySelect}
           />
         </div>
 
@@ -95,23 +81,23 @@ export function NewbizWorkspace({
           <WeeklySummaryPane
             summaries={weeklySummaries}
             selectedThemeId={selectedThemeId}
-            highlightedCategories={highlightedCategories}
-            onKpiHighlight={handleKpiHighlight}
-            onReset={handleReset}
+            selectedCategory={selectedCategory}
+            onCategoryReset={handleCategoryReset}
           />
         </div>
 
-        {/* P4: 次の一手 */}
+        {/* P4: AIに相談する */}
         <div
           key={`p4-${selectedThemeId}`}
           className="animate-in fade-in-0 flex min-h-0 flex-col overflow-hidden duration-200"
         >
           <AiSuggestionsPane
-            suggestions={aiSuggestions}
+            kpiMap={kpiMap}
+            weeklySummaries={weeklySummaries}
+            themes={themes}
             selectedThemeId={selectedThemeId}
-            highlightedCategories={highlightedCategories}
-            onCategoryHighlight={handleCategoryHighlight}
-            onCategoryReset={handleReset}
+            selectedCategory={selectedCategory}
+            onCategoryReset={handleCategoryReset}
           />
         </div>
       </div>
@@ -121,7 +107,6 @@ export function NewbizWorkspace({
         themes={themes}
         kpiMap={kpiMap}
         weeklySummaries={weeklySummaries}
-        aiSuggestions={aiSuggestions}
         selectedThemeId={selectedThemeId}
         onSelectTheme={setSelectedThemeId}
       />
@@ -133,7 +118,6 @@ type MobileViewProps = {
   themes: Theme[];
   kpiMap: KpiMapEntry[];
   weeklySummaries: WeeklySummary[];
-  aiSuggestions: AiSuggestionsEntry[];
   selectedThemeId: string;
   onSelectTheme: (id: string) => void;
 };
@@ -151,7 +135,6 @@ function MobileView({
   themes,
   kpiMap,
   weeklySummaries,
-  aiSuggestions,
   selectedThemeId,
   onSelectTheme,
 }: MobileViewProps) {
@@ -206,7 +189,9 @@ function MobileView({
         )}
         {activeTab === "ai" && (
           <AiSuggestionsPane
-            suggestions={aiSuggestions}
+            kpiMap={kpiMap}
+            weeklySummaries={weeklySummaries}
+            themes={themes}
             selectedThemeId={selectedThemeId}
           />
         )}
